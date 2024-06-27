@@ -1,29 +1,42 @@
 use std::fmt;
 use crate::card::Card;
+use crate::state::ScopedGameState;
 
-pub enum Strategy {
-    Random,
-    Human,
+pub trait Strategy {
+    fn new(name: &'static str) -> Self;
+
+    fn step(&self, state: &ScopedGameState) -> ();
 }
 
-impl fmt::Display for Strategy {
+pub struct Human {
+    name: String,
+}
+
+pub struct Random {
+    name: String,
+}
+
+impl fmt::Display for Human {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Self::Random => write!(f, "Random"),
-            Self::Human => write!(f, "Human"),
-        }
+        write!(f, "{}", self.name)
+    }
+}
+
+impl fmt::Display for Random {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.name)
     }
 }
 
 
 pub struct Player {
-    pub strategy: Strategy,
     pub hand: Vec<Card>,
 }
 
 impl fmt::Display for Player {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} Player: {{ ", self.strategy).ok();
+        // write!(f, "{} Player: {{ ", self.strategy).ok();
+        write!(f, "{{").ok();
         for card in &self.hand {
             write!(f, "{}, ", card).ok();
         }

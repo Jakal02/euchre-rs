@@ -13,7 +13,7 @@ impl Deck {
         }
     }
 
-    pub fn shuffle(&mut self) {
+    pub fn shuffle(&mut self) -> () {
         self.cards.shuffle(&mut rand::thread_rng());
     }
 
